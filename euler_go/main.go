@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"os"
-	eu "github.org/wresch/euler_go"
+	eu "github.com/wresch/euler_go"
 )
 
 var problems = map[string]func(){
@@ -13,6 +13,7 @@ var problems = map[string]func(){
 	"3": problem3,
 	"4": problem4,
 	"5": problem5,
+	"6": problem6,
 }
 
 func main() {
@@ -32,11 +33,13 @@ func main() {
 }
 
 func output(i int, desc string, solution interface{}) {
-	fmt.Println("**********************************************************************")
-	fmt.Printf("*                          Problem %4d                              *\n", i)
-	fmt.Println("**********************************************************************")
-	fmt.Printf("Description\n--------------------\n%s\n\n", desc)
-	fmt.Printf("Solution\n--------------------\n%v\n", solution)
+	fmt.Println("%****************************************************************")
+	fmt.Printf(`\section{Problem %4d}`, i)
+	fmt.Println("\n%****************************************************************")
+	fmt.Println(`\subsection{Description and approach}`)
+	fmt.Printf("%s\n", desc)
+	fmt.Println(`\subsection{Solution}`)
+	fmt.Printf("%v\n", solution)
 }
 
 
@@ -46,7 +49,10 @@ func problem1() {
 If we list all the natural numbers below 10 that are multiples
 of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 
-Find the sum of all the multiples of 3 or 5 below 1000.`
+\emph{Find the sum of all the multiples of 3 or 5 below 1000}.
+
+My solution to this is just brute force.
+`
 	var total int64 = 0
 	for i := eu.NewLinearCounter(3, 3); i.Value < 1000; i.Next() {
 		total += i.Value
@@ -69,8 +75,13 @@ be:
 
 	1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
 
-By considering the terms in the Fibonacci sequence whose values do not
-exceed four million, find the sum of the even-valued terms.`
+\emph{By considering the terms in the Fibonacci sequence whose values do not
+exceed four million, find the sum of the even-valued terms.}
+
+This problem was solved by implementing a generator that supplies an
+infinite list of numbers from the Fibonacci series and then summing
+the even numbers.  This is essentially a brute force approach.
+`
 	var total int64 = 0
 	for i := eu.NewFibonacciCounter(); i.Value < 4000000; i.Next() {
 		if i.Value % 2 == 0 {
@@ -85,13 +96,11 @@ func problem3() {
 	desc := `
 The prime factors of 13195 are 5, 7, 13 and 29.
 
-What is the largest prime factor of the number 600851475143 ?
+\emph{What is the largest prime factor of the number 600851475143 ?}
 
-NOTES
--------------
-Not very many optimizations - basically uses Eratosthenes Sieve to
+Not very many optimizations - my algorithm basically uses Eratosthenes Sieve to
 generate prime numbers and then does trial division with them up to
-sqrt(n).  `
+\(\sqrt(k)\).  `
 	prime_factors := eu.PrimeFactors(600851475143)
 	output(3, desc, prime_factors)
 }
@@ -102,20 +111,22 @@ func problem4() {
 A palindromic number reads the same both ways. The largest palindrome
 made from the product of two 2-digit numbers is 9009 = 91 × 99.
 
-Find the largest palindrome made from the product of two 3-digit
-numbers.
+\emph{Find the largest palindrome made from the product of two 3-digit
+numbers.}
 
-NOTES
--------------
-  * looking for largest palindrome means that the search should start
-    from the largest 3 digit number and proceed down
-  * Take a palindromic 6 digit number with digits a, b, c:
-        P = 100000a + 10000b + 1000c + 100c + 10b + a
-          = 100001a + 10010b + 1100c
-          = 11(9091a + 910b + 100c)
-    This means that P must have 11 as a factor, which means that one
-    of the 2 three digit numbers must have 11 as a factor (since 11 is
-    prime)`
+The first things to do is to only consider unique products and
+start from the largest three digit number (since the largest
+6 digit palindrome is sought).
+
+Next, let us consider a palindromic 6 digit number with digits a, b, c:
+\begin{equation}\begin{align}
+        P &=& 100000a + 10000b + 1000c + 100c + 10b + a \\
+          &=& 100001a + 10010b + 1100c \\
+          &=& 11(9091a + 910b + 100c)
+\end{align}\end{equation}
+This means that P must have 11 as a factor, which means that one
+of the 2 three digit numbers must have 11 as a factor (since 11 is
+prime). This can be used to limit the search space.`
 	var largestPalindrome int64 = 0
 	for a := int64(999); a >= 100; a-- {
 		var bstart int64 = 990 // largest 3 digit number divisible by 11
@@ -143,20 +154,18 @@ func problem5() {
 2520 is the smallest number that can be divided by each of the numbers
 from 1 to 10 without any remainder.
 
-What is the smallest positive number that is evenly divisible by all
-of the numbers from 1 to 20?
+\emph{What is the smallest positive number that is evenly divisible by all
+of the numbers from 1 to 20?}
 
-NOTES
---------------------
-Let n be the smallest number divisible by integers 2..k.
+Let \(n\) be the smallest number divisible by integers \(2..k\).
 
-At a minimum, N has to contain all the prime numbers <= k
+At a minimum, n has to contain all the prime numbers \(<= k\)
 as factors.  The non-prime integers have to be factorized
 and any factors not yet represented by just the prime numbers
 need to be included.  For the case of 20:
-
+\begin{equation}
 2 * 3 * 2 * 5 * 7 * 2 * 3 * 11 * 13 * 2 * 17 * 19 = 232792560
-`
+\end{equation}`
 	var k int64 = 20
 	ps := eu.NewPrimeSieve()
 	factors := make(map[int64]int64)
@@ -184,4 +193,81 @@ need to be included.  For the case of 20:
 	output(5, desc, product)
 }
 			
-			
+//////////////////// problem 6 ////////////////////
+func problem6() {
+	desc := `
+The sum of the squares of the first ten natural numbers is,
+\begin{equation}
+	1^2 + 2^2 + ... + 10^2 = 385
+\end{equation}
+The square of the sum of the first ten natural numbers is,
+\begin{equation}
+	(1 + 2 + ... + 10)^22 = 55^2 = 3025
+\end{equation}
+Hence the difference between the sum of the squares of the first ten
+natural numbers and the square of the sum is 3025 − 385 = 2640.
+
+\emph{Find the difference between the sum of the squares of the first one
+hundred natural numbers and the square of the sum.}
+
+To simplify the sum of integers from 1 to $k$ if $k$ is even, we can rearrange 
+\begin{equation}\begin{align}
+\sum_{i=1}^k i &=& 1 + 2 + ... + (k - 1) + k \\
+ &=& (1 + k) + (2 + (k - 1)) + ... \\
+ &=& (1 + k) \frac{1}{2} k \\
+ &=& \frac{(1 + k)k}{2}
+\end{align}\end{equation}
+
+Odd numbers can be partitioned in the sum up to the preceeding odd
+number plus the number
+\begin{equation}\begin{align}
+\sum_{i=1}^k i &=& \sum_{i=1}^{k-1}i + k \\
+ &=& \frac{(1 + k - 1) * (k - 1)}{2} + frac{2k}{2} \\
+ &=& \frac{(1 + k)k}{2}
+\end{align}\end{equation}
+
+A more general proof for this solution is based on the
+simple equality
+\begin{equation}\begin{align}
+(n + 1)^2 &=& n^2 + 2n + 1
+(n + 1)^2 - n^2 &=& 2n + 1
+\end{align}\end{equation}
+
+We can write this out for all numbers from 1 to $k$
+\begin{equation}\begin{align}
+(1 + 1)^2 - 1^2 &=& 2*1 + 1 \\
+(2 + 1)^2 - 2^2 &=& 2*2 + 1 \\
+(3 + 1)^2 - 3^2 &=& 2*3 + 1 \\
+... \\
+(k + 1)^2 - k^2 &=& 2*k + 1
+\end{align}\end{equation}
+
+If we add up the terms on the left side, 
+most terms cancel out except for $(k + 1)^2$ and
+$-1$, which gives
+\begin{equation}\begin{align}
+(k + 1)^2 - 1 &=& 2\sum_{i=1}^k i + k \\
+\sum_{i=1}^k i &=& \frac{(k + 1)^2 - 1 - k}{2} \\
+\sum_{i=1}^k i &=& \frac{k(k + 1)}{2}
+\end{align}\end{equation}
+
+the same result as above.  The advantage of this
+proof is that it can also be applied to other series. For example
+\begin{equation}\begin{align}
+(n + 1)^3 &=& n^3 + 3n^2 + 3n + 1 \\
+(n + 1)^3 - n^3 &=& 3n^2 + 3n + 1 \\
+
+(1 + 1)^3 - 1^3 &=& 3 * 1^2 + 3*1 + 1 \\
+(2 + 1)^3 - 2^3 &=& 3 * 2^2 + 3*2 + 1 \\
+... \\
+(k + 1)^3 + k^3 &=& 3 * k^2 + 3*k + 1
+\end{align}\end{equation}
+Summing up left side and right side as before
+\begin{equation}\begin{align}
+(k + 1)^3 - 1 &=& 3\sum_{i=1}^k i^2 + 2\sum_{i=1}^k i + k
+\sum_{i=1}^k i^2 &=& \frac{k(k + 1)(2k + 1)}{6}
+\end{align}\end{equation}
+`
+	output(6, desc, eu.Pow(eu.SumOfNaturalsUpTo(100), 2) -
+		eu.SumOfNaturalSquaresUpTo(100))
+}

@@ -30,3 +30,11 @@ func Pow(x, y int64) (int64) {
 	}
 	return a * factor
 }
+
+func SumOfNaturalsUpTo(k int64) int64 {
+	return (k * (k + 1)) / 2
+}
+
+func SumOfNaturalSquaresUpTo(k int64) int64 {
+	return (k * (k + 1) * (2 * k + 1)) / 6
+}
