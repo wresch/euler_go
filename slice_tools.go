@@ -12,3 +12,11 @@ func IntFreq(slice []int64) (map[int64]int64) {
 	}
 	return m
 }
+
+func SliceProd(slice []int64) int64 {
+	var r int64 = 1
+	for _, i := range slice {
+		r *= i
+	}
+	return r
+}
