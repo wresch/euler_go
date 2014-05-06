@@ -38,3 +38,4 @@ func SumOfNaturalsUpTo(k int64) int64 {
 func SumOfNaturalSquaresUpTo(k int64) int64 {
 	return (k * (k + 1) * (2 * k + 1)) / 6
 }
+
