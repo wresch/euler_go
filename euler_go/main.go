@@ -17,6 +17,8 @@ var problems = map[string]func(){
 	"6": problem6,
 	"7": problem7,
 	"8": problem8,
+	"9": problem9,
+	"10": problem10,
 }
 
 func main() {
@@ -322,11 +324,61 @@ in the 1000-digit number ... (not shown here)}`
 		n[i] = int64(r) - 48
 	}
 	var max int64 = 0
-	for i := 0; i <= len(ns) - 5; i++ {
+	for i := int64(0); i <= int64(len(ns)) - 5; i++ {
 		p := eu.SliceProd(n[i:(i+5)])
 		if p > max {
 			max = p
 		}
 	}
 	output(8, desc, max)
+}
+
+//////////////////// problem 9 ////////////////////
+func problem9() {
+	desc := `
+A Pythagorean triplet is a set of three natural numbers, $a < b < c$,
+for which
+\[a^2 + b^2 = c^2\]
+
+For example,
+\[3^2 + 4^2 = 9 + 16 = 25 = 5^2\].
+
+\emph{There exists exactly one Pythagorean triplet for which $a + b + c
+= 1000$.  Find the product abc.}
+
+The solution to this problem makes use of Euclid's formula
+\[
+    a = m^2 - n^2 ,\ \, b = 2mn ,\ \, c = m^2 + n^2
+\]
+.  I tried to derive this formula myself, but did not succeed. This
+needs more work
+`
+	for n := int64(1); n < 100; n++ {
+		for m := n + 1; m < 101; m++ {
+			a := m * m - n * n
+			b := 2 * m * n
+			c := m * m + n * n
+			if a + b + c == 1000 {
+				output(9, desc, fmt.Sprintf("(%d, %d, %d); Product = ", a, b, c, a * b * c))
+				return
+			}
+		}
+	}
+	output(9, "desc", "FAIL")
+}
+
+//////////////////// problem 10 ///////////////////
+func problem10() {
+	desc := `
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+\emph{Find the sum of all the primes below two million.}
+
+Solution reused the prime sive from a previous problem`
+	ps := eu.NewPrimeSieve()
+	var total int64 = 0
+	for ; ps.Value < 2000000; ps.Next() {
+		total += ps.Value
+	}
+	output(10, desc, total)
 }
