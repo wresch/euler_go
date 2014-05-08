@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"math"
 	eu "github.com/wresch/euler_go"
 )
 
@@ -533,12 +534,29 @@ sum of natural numbers:
 So we can easily generate the triangle numbers.  Furthermore, the smallest
 number with 500 distinct divisors
 
+
 And the already written prime factorization algorithm.
 
+
+The lowest number to have 500 divisors is probably 62370000.
+Start at that number
+
 TODO: finish explanation`
-	var d int64 = 500
-	d_prime_factors := eu.PrimeFactors(d)
-	var least_n_with_d_divisors int64 = 0
-	
-	output(12, desc, d_prime_factors)
+	var min_div int64 = 500
+	var min_n int64 = 62370000
+	k_start := int64(math.Sqrt(2 * float64(min_n)))
+	var n int64 = 0
+	for k := k_start; ; k ++ {
+		n_test := k * (k + 1) / 2
+		n_test_pf := eu.IntFreq(eu.PrimeFactors(n_test))
+		var n_div int64 = 1
+		for _, exp := range n_test_pf {
+			n_div *= (exp + 1)
+		}
+		if n_test > min_n && n_div > min_div {
+			n = n_test
+			break
+		}
+	}
+	output(12, desc, n)
 }
