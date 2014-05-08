@@ -21,6 +21,7 @@ var problems = map[string]func(){
 	"9": problem9,
 	"10": problem10,
 	"11": problem11,
+	"12": problem12,
 }
 
 func main() {
@@ -532,6 +533,12 @@ sum of natural numbers:
 So we can easily generate the triangle numbers.  Furthermore, the smallest
 number with 500 distinct divisors
 
-And the already written prime factorization algorithm.`
-	output(12, desc, "")
+And the already written prime factorization algorithm.
+
+TODO: finish explanation`
+	var d int64 = 500
+	d_prime_factors := eu.PrimeFactors(d)
+	var least_n_with_d_divisors int64 = 0
+	
+	output(12, desc, d_prime_factors)
 }
