@@ -1,7 +1,7 @@
 package euler_go
 
 import (
-	//"fmt"
+	"fmt"
 )
 
 // Reverse takes an integer n and returns the integer obtained
@@ -37,5 +37,16 @@ func SumOfNaturalsUpTo(k int64) int64 {
 
 func SumOfNaturalSquaresUpTo(k int64) int64 {
 	return (k * (k + 1) * (2 * k + 1)) / 6
+}
+
+
+func Output(i int, desc string, solution interface{}) {
+	fmt.Println("%****************************************************************")
+	fmt.Printf(`\section{Problem %4d}`, i)
+	fmt.Println("\n%****************************************************************")
+	fmt.Println(`\subsection{Description and approach}`)
+	fmt.Printf("%s\n", desc)
+	fmt.Println(`\subsection{Solution}`)
+	fmt.Printf("%v\n", solution)
 }
 
