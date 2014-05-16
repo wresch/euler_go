@@ -33,17 +33,61 @@ hundred divisors?}
 To solve this problem, we take advantage of the solution for the
 sum of natural numbers:
 	\[ \sum_{i=1}^k i = \frac{k(k + 1)}{2} \]
-So we can easily generate the triangle numbers.  Furthermore, the smallest
-number with 500 distinct divisors
 
+But where do we start?  So let's think about how many divisors a
+number $N$ has.  Any number $N$ can be described as the product
+of it's prime factors:
+\[
+N = p_1^a \cdot p_2^b \cdot ... \cdot p_i^n
+\]
 
-And the already written prime factorization algorithm.
-
-
-The lowest number to have 500 divisors is probably 62370000.
-Start at that number
-
-TODO: finish explanation`
+Each divisor (including $N$ and 1) of the number than takes the form
+\[
+p_1^a \cdot p_2^b \cdot ... \cdot p_i^n \\
+p_1^{a-1} \cdot p_2^b \cdot ... \cdot p_i^n \\
+... \\
+p_1^0 \cdot p_2^0 \cdot ... \cdot p_i^0
+\]
+From this we can conclude that a number has
+\[
+(a + 1)\cdot(b + 1)\cdot ... \cdot(n + 1)
+\]
+divisors. So for any number with 500 divisors we know that
+\[
+(a + 1)\cdot(b + 1)\cdot ... \cdot(n + 1) = 500
+\]
+In other words, we can find numbers that have 500 divisors by
+finding all possible factorings of 500 based on it's prime
+factorization of
+\[
+2^2\cdot5^3
+\].
+If we order the factors in each factorization in decreasing order,
+we can can find a number with 500 factorizations by raising the
+smallest primes to the power of $factor - 1$ starting at 2. In this
+way, the largest exponents will be used for the smallest prime number.
+In the case of 500, one possible factorization is
+\[
+25\cdot5\cdot4 = 500
+\]
+The smallest number with 500 divisors corresponding to this factorization
+is
+\[
+2^24\cdot3^4\cdot5^3 = 169869312000
+\].
+Repeating this for all possible factorizations of 500, we can find the smallest
+number with 500 divisors.  I could not come up with a good algorithm to find all
+possible factorizations, but i believe that
+\[
+5\cdot5\cdot5\cdot2\cdot2
+\]
+yields the lowest number with 500 divisors
+\[
+2^4\cdot3^4\cdot5^4\cdot7^1\cdot11^1 = 62370000
+\]
+So, we need to find the first triangle number larger than 62370000 that
+has 500 divisors.
+`
 
 func main() {
 	var min_div int64 = 500
