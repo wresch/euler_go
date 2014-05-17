@@ -32,3 +32,28 @@ func (c *FibonacciCounter) Next() int64 {
 	c.Value, c.nextValue = c.nextValue, c.Value + c.nextValue
 	return c.Value
 }
+
+//////////////////////////// collatz series ////////////////////////////
+
+type CollatzSeries struct {
+	Value, Length int64
+}
+
+func NewCollatzSeries(start int64) (s *CollatzSeries) {
+	return &CollatzSeries{Value: start, Length: 1}
+}
+
+func (s *CollatzSeries) Next() int64 {
+	if s.Value == 1 {
+		return s.Value
+	} else {
+		if s.Value % 2 == 0 {
+			s.Value /= 2
+			s.Length += 1
+		} else {
+			s.Value = s.Value * 3 + 1
+			s.Length += 1
+		}
+		return s.Value
+	}
+}

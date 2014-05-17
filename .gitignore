@@ -21,3 +21,10 @@ _testmain.go
 
 *.exe
 *.test
+
+*.png
+*.svg
+*.jpg
+*.tiff
+*.pdf
+*.eps
