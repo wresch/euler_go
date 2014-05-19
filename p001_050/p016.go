@@ -2,12 +2,9 @@ package main
 
 import (
 	"fmt"
-	"math/big"
 	eu "github.com/wresch/euler_go"
+	"math/big"
 )
-
-
-
 
 var desc string = `
 
@@ -26,7 +23,7 @@ func main() {
 	res := big.NewInt(0)
 	mod := big.NewInt(0)
 	pow.SetBit(pow, 1000, 1)
-	for ;pow.Cmp(zero) == 1; {
+	for pow.Cmp(zero) == 1 {
 		pow.DivMod(pow, ten, mod)
 		res.Add(res, mod)
 	}

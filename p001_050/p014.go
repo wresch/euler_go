@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"code.google.com/p/plotinum/plot"
 	"code.google.com/p/plotinum/plotter"
-	"image/color"
+	"fmt"
 	eu "github.com/wresch/euler_go"
+	"image/color"
 )
 
 var desc string = `
@@ -51,7 +51,7 @@ func main() {
 	var max_collatz_int int64 = 0
 	for i := int64(1); i <= N; i++ {
 		cs := eu.NewCollatzSeries(i)
-		for ; cs.Value != 1; {
+		for cs.Value != 1 {
 			cs.Next()
 		}
 		collatz_lengths[i-1] = float64(cs.Length)
@@ -69,7 +69,7 @@ func main() {
 		panic(err)
 	}
 	p.Title.Text = "Collatz series length for values 1-10^6"
-	
+
 	h, err := plotter.NewHist(collatz_lengths, 100)
 	if err != nil {
 		panic(err)

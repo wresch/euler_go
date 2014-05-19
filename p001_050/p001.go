@@ -13,7 +13,6 @@ of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 My solution to this is just brute force.
 `
 
-
 //////////////////// problem1 ////////////////////
 func main() {
 	var total int64 = 0
@@ -21,7 +20,7 @@ func main() {
 		total += i.Value
 	}
 	for i := eu.NewLinearCounter(5, 5); i.Value < 1000; i.Next() {
-		if i.Value % 3 == 0 {
+		if i.Value%3 == 0 {
 			continue
 		}
 		total += i.Value

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"math/big"
 	eu "github.com/wresch/euler_go"
+	"math/big"
 )
 
 var desc string = `
@@ -46,11 +46,12 @@ number of possible routes is
 
 
  `
+
 // a 2x2 grid has 3 points in each row!
 func path_numbers_iterative(m, n int) int64 {
-	grid := make([][]int64, m + 1)
+	grid := make([][]int64, m+1)
 	for r := 0; r <= m; r++ {
-		grid[r] = make([]int64, n + 1)
+		grid[r] = make([]int64, n+1)
 	}
 	for r := 0; r <= m; r++ {
 		grid[r][n] = 1
@@ -75,9 +76,9 @@ func path_numbers_iterative(m, n int) int64 {
 func path_numbers_combinatorial(m, n int) *big.Int {
 	m64 := int64(m)
 	n64 := int64(n)
-	r := big.NewRat(m64 + n64, m64)
+	r := big.NewRat(m64+n64, m64)
 	for k := int64(1); k < m64; k++ {
-		r.Mul(r, big.NewRat(n64 + m64 - k, m64 - k))
+		r.Mul(r, big.NewRat(n64+m64-k, m64-k))
 	}
 	if r.IsInt() {
 		//fmt.Printf("r.Num() -> %p\n", r.Num())

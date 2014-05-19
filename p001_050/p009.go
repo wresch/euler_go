@@ -28,12 +28,12 @@ func main() {
 
 	for n := int64(1); n < 100; n++ {
 		for m := n + 1; m < 101; m++ {
-			a := m * m - n * n
+			a := m*m - n*n
 			b := 2 * m * n
-			c := m * m + n * n
-			if a + b + c == 1000 {
+			c := m*m + n*n
+			if a+b+c == 1000 {
 				eu.Output(9, desc, fmt.Sprintf("(%d, %d, %d); Product = %d",
-					a, b, c, a * b * c))
+					a, b, c, a*b*c))
 				return
 			}
 		}

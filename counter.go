@@ -11,7 +11,7 @@ type LinearCounter struct {
 }
 
 func NewLinearCounter(start, step int64) (c *LinearCounter) {
-	return &LinearCounter{Value:start, step:step}
+	return &LinearCounter{Value: start, step: step}
 }
 
 func (c *LinearCounter) Next() int64 {
@@ -29,7 +29,7 @@ func NewFibonacciCounter() (c *FibonacciCounter) {
 }
 
 func (c *FibonacciCounter) Next() int64 {
-	c.Value, c.nextValue = c.nextValue, c.Value + c.nextValue
+	c.Value, c.nextValue = c.nextValue, c.Value+c.nextValue
 	return c.Value
 }
 
@@ -47,11 +47,11 @@ func (s *CollatzSeries) Next() int64 {
 	if s.Value == 1 {
 		return s.Value
 	} else {
-		if s.Value % 2 == 0 {
+		if s.Value%2 == 0 {
 			s.Value /= 2
 			s.Length += 1
 		} else {
-			s.Value = s.Value * 3 + 1
+			s.Value = s.Value*3 + 1
 			s.Length += 1
 		}
 		return s.Value

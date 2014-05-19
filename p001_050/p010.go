@@ -16,7 +16,6 @@ of creating an endless series, but it does not store
 previous results and is relatively inefficient. This
 code took 2m on helix.`
 
-
 func main() {
 	ps := eu.NewPrimeSieve()
 	var total int64 = 0

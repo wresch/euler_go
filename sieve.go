@@ -5,15 +5,15 @@ import (
 )
 
 type PrimeSieve struct {
-	Value int64
-	sieves []*LinearCounter
+	Value      int64
+	sieves     []*LinearCounter
 	oddNumbers *LinearCounter
 }
 
 func NewPrimeSieve() (p *PrimeSieve) {
 	p = &PrimeSieve{
-		Value: 2,
-		sieves: make([]*LinearCounter, 0, 1000),
+		Value:      2,
+		sieves:     make([]*LinearCounter, 0, 1000),
 		oddNumbers: NewLinearCounter(3, 2),
 	}
 	return
@@ -26,7 +26,7 @@ func (s *PrimeSieve) Sieves() {
 }
 
 func (s *PrimeSieve) Next() int64 {
-	for ;; s.oddNumbers.Next() {
+	for ; ; s.oddNumbers.Next() {
 		isPrime := true
 		val := s.oddNumbers.Value
 		for _, filt := range s.sieves {
@@ -39,17 +39,17 @@ func (s *PrimeSieve) Next() int64 {
 			// new sieve advances by steps of two since even numbers are not
 			// checked anyway
 			s.Value = val
-			s.sieves = append(s.sieves, NewLinearCounter(val * val, 2 * val))
+			s.sieves = append(s.sieves, NewLinearCounter(val*val, 2*val))
 			s.oddNumbers.Next()
 			return s.Value
 		}
 	}
 }
 
-func PrimeFactors(n int64) ([]int64) {
+func PrimeFactors(n int64) []int64 {
 	prime_factors := make([]int64, 0, 1000)
-	for primes := NewPrimeSieve(); primes.Value * primes.Value <= n; primes.Next() {
-		for ;n % primes.Value == 0; {
+	for primes := NewPrimeSieve(); primes.Value*primes.Value <= n; primes.Next() {
+		for n%primes.Value == 0 {
 			prime_factors = append(prime_factors, primes.Value)
 			n /= primes.Value
 		}

@@ -79,6 +79,6 @@ Summing up left side and right side as before
 `
 
 func main() {
-	eu.Output(6, desc, eu.Pow(eu.SumOfNaturalsUpTo(100), 2) -
+	eu.Output(6, desc, eu.Pow(eu.SumOfNaturalsUpTo(100), 2)-
 		eu.SumOfNaturalSquaresUpTo(100))
 }

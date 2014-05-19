@@ -1,8 +1,8 @@
 package main
 
 import (
-	"math"
 	eu "github.com/wresch/euler_go"
+	"math"
 )
 
 var desc string = `
@@ -94,7 +94,7 @@ func main() {
 	var min_n int64 = 62370000
 	k_start := int64(math.Sqrt(2 * float64(min_n)))
 	var n int64 = 0
-	for k := k_start; ; k ++ {
+	for k := k_start; ; k++ {
 		n_test := k * (k + 1) / 2
 		n_test_pf := eu.IntFreq(eu.PrimeFactors(n_test))
 		var n_div int64 = 1

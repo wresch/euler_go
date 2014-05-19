@@ -21,7 +21,6 @@ need to be included.  For the case of 20:
 2 * 3 * 2 * 5 * 7 * 2 * 3 * 11 * 13 * 2 * 17 * 19 = 232792560
 \end{equation}`
 
-
 func main() {
 	var k int64 = 20
 	ps := eu.NewPrimeSieve()
@@ -32,7 +31,7 @@ func main() {
 			ps.Next()
 		} else {
 			ifact := eu.IntFreq(eu.PrimeFactors(i))
-			for ii, ni := range(ifact) {
+			for ii, ni := range ifact {
 				if nc, ok := factors[ii]; ok {
 					if ni > nc {
 						factors[ii] = ni

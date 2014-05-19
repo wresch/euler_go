@@ -29,10 +29,10 @@ func main() {
 	var largestPalindrome int64 = 0
 	for a := int64(999); a >= 100; a-- {
 		var bstart int64 = 990 // largest 3 digit number divisible by 11
-		var bstep  int64 =  11
-		if a % 11 == 0 {
+		var bstep int64 = 11
+		if a%11 == 0 {
 			bstart = 999
-			bstep  = 1
+			bstep = 1
 		}
 		for b := bstart; b >= 100; b -= bstep {
 			prod := a * b

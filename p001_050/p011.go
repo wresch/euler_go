@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	eu "github.com/wresch/euler_go"
 	"os"
 	"strconv"
 	"strings"
-	eu "github.com/wresch/euler_go"
 )
 
 var desc string = `
@@ -25,8 +25,6 @@ grid?}
 There are basically two things to solve here - how to read
 in the data and how to create indices for i adjacent
 numbers in an m x n grid.`
-
-
 
 func main() {
 	mats := `08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -68,15 +66,15 @@ func main() {
 	// get all adjacent n-tuples
 	max := 0
 	cur := 1
-	for i := 0; i <= nrow - 1; i++ {
-		for j := 0; j <= ncol - 1; j++ {
+	for i := 0; i <= nrow-1; i++ {
+		for j := 0; j <= ncol-1; j++ {
 			if mat[i][j] == 0 {
 				continue
 			}
 			// to the right
-			if j <= ncol - ntuple {
+			if j <= ncol-ntuple {
 				for dj := 0; dj < ntuple; dj++ {
-					cur *= mat[i][j + dj]
+					cur *= mat[i][j+dj]
 				}
 				if cur > max {
 					max = cur
@@ -84,9 +82,9 @@ func main() {
 				cur = 1
 			}
 			// down
-			if i <= nrow - ntuple {
+			if i <= nrow-ntuple {
 				for di := 0; di < ntuple; di++ {
-					cur *= mat[i + di][j]
+					cur *= mat[i+di][j]
 				}
 				if cur > max {
 					max = cur
@@ -94,18 +92,18 @@ func main() {
 				cur = 1
 			}
 			// diagonal
-			if j <= ncol - ntuple && i <= nrow - ntuple {
-				for di, dj := 0, 0; di < ntuple; di, dj = di + 1, dj + 1 {
-					cur *= mat[i + di][j + dj]
+			if j <= ncol-ntuple && i <= nrow-ntuple {
+				for di, dj := 0, 0; di < ntuple; di, dj = di+1, dj+1 {
+					cur *= mat[i+di][j+dj]
 				}
 				if cur > max {
 					max = cur
 				}
 				cur = 1
 			}
-			if j >= ntuple - 1 && i <= nrow - ntuple {
-				for di, dj := 0, 0; di < ntuple; di, dj = di + 1, dj - 1 {
-					cur *= mat[i + di][j + dj]
+			if j >= ntuple-1 && i <= nrow-ntuple {
+				for di, dj := 0, 0; di < ntuple; di, dj = di+1, dj-1 {
+					cur *= mat[i+di][j+dj]
 				}
 				if cur > max {
 					max = cur
@@ -114,6 +112,6 @@ func main() {
 			}
 		}
 	}
-		
+
 	eu.Output(11, fmt.Sprintf(desc, mats), max)
 }
