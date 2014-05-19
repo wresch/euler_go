@@ -138,3 +138,33 @@ func BritishSpelledNumber(n int64) (s string) {
 	}
 	return
 }
+
+func TriangleMaxPathSum(triangle [][]int) (maxNum int) {
+	sumTree := make([][]int, len(triangle))
+	for ri, row := range triangle {
+		sumTree[ri] = make([]int, ri+1)
+		if ri == 0 {
+			sumTree[0][0] = row[0]
+		} else {
+			for ci, n := range row {
+				switch {
+				case ci == 0:
+					sumTree[ri][0] = n + sumTree[ri-1][0]
+				case ci == ri:
+					sumTree[ri][ci] = n + sumTree[ri-1][ci-1]
+				case sumTree[ri-1][ci] > sumTree[ri-1][ci-1]:
+					sumTree[ri][ci] = n + sumTree[ri-1][ci]
+				default:
+					sumTree[ri][ci] = n + sumTree[ri-1][ci-1]
+				}
+			}
+		}
+	}
+	maxNum = 0
+	for _, n := range sumTree[len(triangle)-1] {
+		if n > maxNum {
+			maxNum = n
+		}
+	}
+	return
+}
