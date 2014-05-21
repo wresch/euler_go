@@ -47,7 +47,7 @@ func (s *PrimeSieve) Next() int64 {
 }
 
 func PrimeFactors(n int64) []int64 {
-	prime_factors := make([]int64, 0, 1000)
+	prime_factors := make([]int64, 0, 100)
 	for primes := NewPrimeSieve(); primes.Value*primes.Value <= n; primes.Next() {
 		for n%primes.Value == 0 {
 			prime_factors = append(prime_factors, primes.Value)
@@ -58,4 +58,17 @@ func PrimeFactors(n int64) []int64 {
 		prime_factors = append(prime_factors, n)
 	}
 	return prime_factors
+}
+
+func SumOfDivisors(n int64) int64 {
+	pfs := PrimeFactors(n)
+	pfm := make(map[int64]int64)
+	for _, pf := range pfs {
+		pfm[pf] = pfm[pf] + 1
+	}
+	var sod int64 = 1
+	for p, a := range pfm {
+		sod *= (Pow(p, (a+1)) - 1) / (p - 1)
+	}
+	return sod
 }

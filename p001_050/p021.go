@@ -76,5 +76,24 @@ where $n$ is the number of prime divisors.
 `
 
 func main() {
-	eu.Output(21, desc, fmt.Sprintf("The sum of all amicable numbers below 10000 is %d.\n", 0))
+	var N int64 = 10000
+	sods := make([]int64, 10001)
+	for i := int64(1); i <= N; i++ {
+		sods[i] = eu.SumOfDivisors(i) - i // only using proper divisors
+	}
+	var sumOfAmicableNumbers int64 = 0
+	for i, sod := range sods {
+		i64 := int64(i)
+		if i64 < N && sod < N && sod > 0 {
+			if sods[sod] == i64 && i64 != sod {
+				//fmt.Printf("%4d[%d] - %4d[%d]\n", i, sod, sod, sods[sod])
+				sumOfAmicableNumbers += i64 + sod
+				sods[i] = 0
+				sods[sod] = 0
+			}
+		}
+	}
+	eu.Output(21, desc,
+		fmt.Sprintf("The sum of all amicable numbers below 10000 is %d.\n",
+			sumOfAmicableNumbers))
 }
