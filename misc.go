@@ -170,7 +170,6 @@ func TriangleMaxPathSum(triangle [][]int) (maxNum int) {
 	return
 }
 
-
 // ScanComma is a split function for a Scanner that returns each
 // comma-separated word of text; actually handles unicode...
 func ScanComma(data []byte, atEOF bool) (advance int, token []byte, err error) {

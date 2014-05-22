@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
-	"os"
-	"strings"
-	"sort"
+	"fmt"
 	eu "github.com/wresch/euler_go"
+	"os"
+	"sort"
+	"strings"
 )
-
 
 var desc = `
 
@@ -50,10 +49,10 @@ func main() {
 	for i, n := range names {
 		ns := 0
 		for _, r := range n {
-			ns += int(r - 'A') + 1
+			ns += int(r-'A') + 1
 		}
 		//fmt.Printf("%s -> %5d * %5d = %6d\n", n, i + 1, ns, ns * (i + 1))
-		total += int64(ns) * int64(i + 1)
+		total += int64(ns) * int64(i+1)
 	}
 	eu.Output(22, desc,
 		fmt.Sprintf("The sum of all name scoes is %d\n", total))
