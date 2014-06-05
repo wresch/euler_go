@@ -46,6 +46,74 @@ func (s *PrimeSieve) Next() int64 {
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Data structure to store prime numbers efficiently
+//   takes advantage of the fact that primes > 3 can be expressed as either
+//   p = 6n + 1 or p = 6n + 5.  Proof for this is shown elsewhere. Originally
+//   i wanted to use big.Int as a bitset, but it was too slow (too many
+//   allocations). Instead i wrote a minimal bitset myself
+////////////////////////////////////////////////////////////////////////////////
+type PrimeSet struct {
+	modulo6 []uint64
+	max     uint
+}
+
+func NewPrimeSet(max uint) (p *PrimeSet) {
+	max64 := int64(max)
+	p = &PrimeSet{
+		modulo6: make([]uint64, max/64+1),
+		max:     max,
+	}
+	var i uint = 0
+	for psieve := NewPrimeSieve(); psieve.Value < max64; psieve.Next() {
+		i = 0
+		if psieve.Value < 5 {
+			continue
+		}
+		d6 := uint(psieve.Value) / 6
+		m6 := uint(psieve.Value) % 6
+		switch m6 {
+		case 1:
+			i = d6
+		case 5:
+			i = d6 + 1
+		default:
+			panic("Bad prime number")
+		}
+		p.modulo6[i>>6] |= 1 << (i & 63)
+	}
+	return p
+}
+
+func (p *PrimeSet) IsPrime(n uint) (isPrime, ok bool) {
+	isPrime, ok = false, false
+	if n < p.max {
+		var i uint = 0
+		switch n {
+		case 2, 3, 5:
+			isPrime, ok = true, true
+		default:
+			d6 := n / 6
+			m6 := n % 6
+			switch m6 {
+			case 1:
+				i = d6
+			case 5:
+				i = d6 + 1
+			default:
+				isPrime, ok = false, true
+				return
+			}
+			if p.modulo6[i>>6]&(1<<(i&63)) != 0 {
+				isPrime, ok = true, true
+			}
+		}
+	}
+	return
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Prime factorization of a number n
 func PrimeFactors(n int64) []int64 {
 	prime_factors := make([]int64, 0, 100)
 	for primes := NewPrimeSieve(); primes.Value*primes.Value <= n; primes.Next() {
@@ -60,6 +128,8 @@ func PrimeFactors(n int64) []int64 {
 	return prime_factors
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Sum of all divisors (including 1 and n itself) of a number n
 func SumOfDivisors(n int64) int64 {
 	pfs := PrimeFactors(n)
 	pfm := make(map[int64]int64)

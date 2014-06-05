@@ -44,7 +44,7 @@ func Output(i int, desc string, solution interface{}) {
 	fmt.Println("%****************************************************************")
 	fmt.Printf(`\section{Problem %4d}`, i)
 	fmt.Println("\n%****************************************************************")
-	fmt.Println(`\subsection{Description and approach}`)
+	fmt.Println(`\subsection{Description}`)
 	fmt.Printf("%s\n", desc)
 	fmt.Println(`\subsection{Solution}`)
 	fmt.Printf("%v\n", solution)

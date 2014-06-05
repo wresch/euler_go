@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"math/big"
 	eu "github.com/wresch/euler_go"
+	"math/big"
 )
 
 var desc = `
@@ -76,9 +76,6 @@ x &= \frac{-b\pm\sqrt{b^2-4ac}}{2a}
 \end{align*}
 `
 
-
-
-
 func main() {
 	eu.Output(25, desc, fmt.Sprintf("The first Fibonacci number with 1000 digits is the %dth term of the series (mathematically derived).", 4782))
 	kdigits := big.NewInt(0)
@@ -91,5 +88,5 @@ func main() {
 		fibTerms[1].Set(fibTerms[2])
 		fibTerms[2].Add(fibTerms[0], fibTerms[1])
 	}
-	fmt.Printf("By brute force we also find %d.\n", n)	
+	fmt.Printf("By brute force we also find %d.\n", n)
 }

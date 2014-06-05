@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"bytes"
+	"fmt"
 	eu "github.com/wresch/euler_go"
 )
 
@@ -37,13 +37,17 @@ d = 2^a + 5^b
 \]
 For these it won't be necessary to determine the length of the
 cycle. For all other numbers, we implement a basic long division
-to determine the period of the recurring cycle.
+to determine the period of the recurring cycle.  We start looking from
+the largest possible number.
+
+I think i am missing some interesting mathematics here, but it
+works.
 `
 
 func unitFractionTerminates(d int) bool {
 	pf := eu.PrimeFactors(int64(d))
 	isTerminating := true
-	for _, v := range(pf) {
+	for _, v := range pf {
 		if v != 2 && v != 5 {
 			isTerminating = false
 			break
@@ -57,7 +61,7 @@ func unitFractionDigits(d int) (repeatStart int, digits []int) {
 	remainders := make(map[int]int)
 	n := 10
 	repeatStart = -1
-	for i := 0;; i++ {
+	for i := 0; ; i++ {
 		rem := n % d
 		dig := n / d
 		if pos, ok := remainders[rem]; ok && digits[pos] == dig {
@@ -95,10 +99,10 @@ func digitsAsString(digits []int, repeatStart int) string {
 func main() {
 	maxRepeatCycle := 0
 	maxRepeatCycleNum := 0
-	for i := 2; i < 1000; i++ {
-		if ! unitFractionTerminates(i) {
+	for i := 999; i > 2; i++ {
+		if !unitFractionTerminates(i) {
 			repStart, digits := unitFractionDigits(i)
-			if len(digits) - repStart > maxRepeatCycle {
+			if len(digits)-repStart > maxRepeatCycle {
 				maxRepeatCycle = len(digits) - repStart
 				maxRepeatCycleNum = i
 			}

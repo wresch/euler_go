@@ -31,7 +31,6 @@ reasoning for each successive step up to permutation $2\cdot9! +
 999996$ is $2,783,914,650$.  Four more steps take us to
 $2,783,915,460$.  `
 
-
 func main() {
 	eu.Output(24, desc, fmt.Sprintf("The millionth permutation of 0-9 is %d.\n", 2783915460))
 }
